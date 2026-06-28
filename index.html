@@ -4101,6 +4101,606 @@
         ],
         correct: 1,
         explanation: "Delta Lake extends Parquet storage by maintaining a transaction log directory. This enables ACID transactions, concurrent writes, metadata scaling, and time-travel query rollbacks."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "In the Transformer self-attention mechanism, how is the scaling factor 1/sqrt(d_k) applied to the dot product of Query (Q) and Key (K) vectors mathematically justified?",
+        options: [
+            "To normalize the sequence lengths being processed in parallel.",
+            "To prevent the dot products from growing excessively large in magnitude, which would push the softmax function into regions with extremely small gradients.",
+            "To ensure the key and value matrices remain orthogonal.",
+            "To scale down the attention matrix to fit within the context window memory limits."
+        ],
+        correct: 1,
+        explanation: "When the dimensionality d_k is large, the dot products grow large in magnitude, pushing the softmax function into regions where it has extremely small gradients (vanishing gradients). Dividing by sqrt(d_k) stabilizes the variance of the dot product to 1."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "Why do standard Transformer architectures require explicit Positional Encodings?",
+        options: [
+            "Because the self-attention mechanism is permutation-invariant, meaning it treats input tokens as an unordered set without sequence order information.",
+            "To compile text tokens into floating-point vectors before attention calculations.",
+            "To enforce a strict limit on the maximum context window size.",
+            "To establish encryption boundaries that prevent leaking sequence data to external layers."
+        ],
+        correct: 0,
+        explanation: "Self-attention processes all tokens in parallel, making it permutation-invariant. Without positional encodings (either absolute sinusoidal or relative/rotary), the network would treat 'cat eats fish' and 'fish eats cat' identically."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is the primary architectural difference between an encoder-only model (like BERT) and a decoder-only model (like GPT)?",
+        options: [
+            "Encoder-only models use causal masking; decoder-only models allow bidirectional self-attention across all tokens.",
+            "Decoder-only models use causal masking to prevent tokens from attending to future tokens; encoder-only models allow bidirectional self-attention.",
+            "Encoder-only models require continuous pre-training; decoder-only models are strictly zero-shot.",
+            "Decoder-only models contain only feed-forward layers, skipping attention mechanisms entirely."
+        ],
+        correct: 1,
+        explanation: "Decoder-only autoregressive models utilize causal attention masking to ensure the prediction of token t depends only on tokens 0 to t-1. Encoder-only models have no causal masks, allowing bidirectional attention to see the entire context."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "How does the Byte Pair Encoding (BPE) tokenization algorithm build its vocabulary during training?",
+        options: [
+            "By repeatedly merging the most frequent pairs of adjacent bytes or characters in a corpus.",
+            "By training a neural network classifier to predict word boundaries based on character frequencies.",
+            "By grouping words alphabetically and assigning unique index integers.",
+            "By dynamically converting all words into phonetic hash sequences."
+        ],
+        correct: 0,
+        explanation: "BPE starts with individual characters/bytes as the vocabulary. It iteratively finds the most frequent pair of adjacent tokens in the training text, merges them to create a new token, and adds it to the vocabulary until it reaches the desired vocabulary size."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "In LLM text generation, how does lowering the Temperature parameter (e.g., from 1.0 to 0.2) affect the softmax output probability distribution?",
+        options: [
+            "It flattens the distribution, making lower-probability tokens more likely to be selected (increasing randomness).",
+            "It sharpens the distribution, increasing the probability of the most likely token and making generation more deterministic.",
+            "It randomly reshuffles token probabilities to force creative output.",
+            "It truncates the vocabulary size to exclude the top 20% most frequent tokens."
+        ],
+        correct: 1,
+        explanation: "Softmax with temperature divides logits by T. Lowering T makes the difference between logits more pronounced, concentrating the probability mass on the highest-logit tokens and leading to more deterministic, repetitive outputs."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What does Top-P (Nucleus) sampling do during the token selection process?",
+        options: [
+            "It selects only the top 'P' highest-probability tokens from the vocabulary.",
+            "It filters the vocabulary to include only tokens whose individual probability is greater than P.",
+            "It selects from the smallest set of top tokens whose cumulative probability exceeds the threshold P.",
+            "It assigns a fixed probability P to all tokens, ignoring their initial logits."
+        ],
+        correct: 2,
+        explanation: "Top-p sampling selects from a dynamic pool of tokens. It ranks tokens by probability and keeps the top tokens whose combined cumulative probability sums up to the threshold p. This allows the pool to expand or contract based on the model's confidence."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is the primary purpose of utilizing a Key-Value (KV) Cache during LLM inference?",
+        options: [
+            "To store historical prompt templates in external database systems.",
+            "To cache the Key and Value projection matrices of previously processed tokens, avoiding redundant O(N^2) recalculations in auto-regressive generation.",
+            "To compress model weights down to 4-bit representation scales.",
+            "To log the security metadata of incoming user request strings."
+        ],
+        correct: 1,
+        explanation: "Autoregressive decoding generates tokens one by one. By caching the Key and Value activation vectors of past tokens, the model only needs to calculate Q, K, and V for the single new token at each step, transforming quadratic recalculations into linear ones."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "How does FlashAttention achieve faster attention calculation and reduced memory usage?",
+        options: [
+            "By pruning 50% of the attention heads dynamically.",
+            "By tiling the inputs into blocks and computing attention incrementally while minimizing slow High Bandwidth Memory (HBM) transfers to fast GPU SRAM.",
+            "By converting attention float calculations into low-precision integer formats.",
+            "By running attention math asynchronously on separate external CPU clusters."
+        ],
+        correct: 1,
+        explanation: "Standard attention writes the intermediate N x N attention matrix to slow GPU High Bandwidth Memory (HBM). FlashAttention tiles the input into blocks, loads them to fast SRAM, computes softmax incrementally using online softmax scaling, and avoids storing the large intermediate attention matrix on HBM."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "How does Direct Preference Optimization (DPO) simplify the model alignment process compared to Reinforcement Learning from Human Feedback (RLHF)?",
+        options: [
+            "DPO completely eliminates the need for any preference datasets or instruction pairs.",
+            "DPO bypasses training a separate reward model and running complex PPO reinforcement loops by optimizing the policy model directly using a binary cross-entropy loss on preference pairs.",
+            "DPO runs alignment during the initial pre-training phase, skipping Supervised Fine-Tuning.",
+            "DPO replaces gradient descent optimizations with genetic mutation algorithms."
+        ],
+        correct: 1,
+        explanation: "Traditional RLHF trains a separate reward model and then runs PPO to optimize the policy model, which is unstable and computationally heavy. DPO mathematically reformulates the objective, showing that the reward model can be expressed in terms of the policy model, allowing direct optimization on preference pairs."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is the core concept of Activation-aware Weight Quantization (AWQ) in LLM compression?",
+        options: [
+            "It quantizes only the weights of the model that correspond to less important activation channels, keeping the top 1% channels in FP16.",
+            "It dynamically adjusts activation values at runtime using external scaling lookup files.",
+            "It quantizes weights based on the observation that protecting the weights corresponding to the top 1% most active activation channels prevents quantization degradation.",
+            "It trains a secondary neural network to predict the quantization errors of attention heads."
+        ],
+        correct: 2,
+        explanation: "AWQ observes that not all weights are equal. By analyzing activation distributions during calibration, AWQ identifies channels with large activations (the top 1%) and protects the corresponding weights from heavy quantization noise by applying a per-channel scale, which maintains model accuracy."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is the primary mechanism behind few-shot prompting (in-context learning)?",
+        options: [
+            "The model's weights are updated using gradient descent on the provided examples before generating the response.",
+            "The model leverages the examples in its context window to infer the task pattern dynamically during the forward pass without updating weights.",
+            "The model queries an external vector database to retrieve similar examples.",
+            "The model uses template compilers to translate prompts into structured SQL queries."
+        ],
+        correct: 1,
+        explanation: "Few-shot prompting provides in-context examples in the prompt. The model processes these during its forward pass, using its learned attention patterns to guide the output without undergoing any parameter updates (weights remain frozen)."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "Why does Chain-of-Thought (CoT) prompting improve an LLM's accuracy on complex reasoning tasks?",
+        options: [
+            "It expands the model's parameters dynamically during execution loops.",
+            "It allocates more computational steps (tokens) for the model to process intermediate reasoning before arriving at the final token predictions.",
+            "It bypasses the causal attention mask, allowing the model to look ahead at the correct answer.",
+            "It compresses the context window to ignore redundant system prompts."
+        ],
+        correct: 1,
+        explanation: "Auto-regressive LLMs generate tokens one-by-one. If asked for a direct answer to a complex math problem, the model must compute the answer in a single forward pass. CoT forces the model to generate intermediate reasoning tokens, which are fed back as context, allocating more compute steps to reach the final answer."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "How does the ReAct (Reasoning + Acting) framework coordinate LLM execution?",
+        options: [
+            "It splits the prompt into separate user and system role blocks.",
+            "It interleaves reasoning traces (Thought) and action steps (Action/Observation), allowing the LLM to call tools and update its reasoning dynamically.",
+            "It compiles prompts into local Python scripts that execute sequentially.",
+            "It forces the model to generate multiple output choices and ranks them using a reward model."
+        ],
+        correct: 1,
+        explanation: "ReAct combines reasoning and acting. The model writes a 'Thought' explaining what it needs to do, decides on an 'Action' (e.g., calling an API), receives an 'Observation' (API result), and updates its next 'Thought' based on that observation."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "How does the Tree of Thoughts (ToT) paradigm extend beyond standard Chain of Thought (CoT)?",
+        options: [
+            "By restricting generation paths to a single pre-defined execution graph.",
+            "By generating and evaluating multiple self-contained reasoning steps (thoughts) in a tree structure, using search algorithms like BFS or DFS to backtrack and evaluate paths.",
+            "By training separate models for each branch of the reasoning tree.",
+            "By converting text thoughts into hierarchical binary indices stored on disk."
+        ],
+        correct: 1,
+        explanation: "ToT frames problem-solving as a search over a tree of thoughts. Each thought is a coherent language step. The system generates multiple thought candidates, evaluates their progress towards a solution, and searches the tree using BFS/DFS with backtracking, much like a chess engine."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is the primary role of a System Prompt (Developer Message) in LLM-based applications?",
+        options: [
+            "To define the execution port configurations of the web app server.",
+            "To establish high-level behavioral boundaries, tone, capabilities, and safety guardrails that guide the model's interactions with user inputs.",
+            "To compress user prompts to save token costs.",
+            "To trigger automatic retrieval-augmented generation routines in vector databases."
+        ],
+        correct: 1,
+        explanation: "The system prompt sets the persona, instructions, system rules, and safety boundaries for the model. It is injected at the beginning of the context and remains persistent to steer the model's behavior across subsequent user inputs."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "In a standard Retrieval-Augmented Generation (RAG) pipeline, what is the role of the Vector Database?",
+        options: [
+            "To store the base model's parameter weights and gradients.",
+            "To index and store document chunk embeddings, enabling rapid semantic similarity search based on query embedding vectors.",
+            "To execute code snippets generated by the LLM in sandbox environments.",
+            "To route user queries to different fine-tuned models."
+        ],
+        correct: 1,
+        explanation: "The vector database indexes text chunks by their dense vector embeddings. At query time, the user's prompt is embedded, and the database performs a fast similarity search (e.g., Cosine similarity) to retrieve chunks with similar semantic meaning."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is a primary difference between BM25 retrieval and Dense Retrieval?",
+        options: [
+            "BM25 matches semantic meaning and concepts; Dense Retrieval matches exact keyword characters.",
+            "BM25 relies on exact keyword matching and term frequency statistics; Dense Retrieval utilizes dense embeddings to capture semantic meaning and context.",
+            "BM25 requires GPU acceleration; Dense Retrieval runs exclusively on CPU threads.",
+            "BM25 permanently alters document text chunks; Dense Retrieval is read-only."
+        ],
+        correct: 1,
+        explanation: "BM25 is a classic keyword-based sparse retrieval algorithm based on term frequency and document length normalization. Dense retrieval uses neural network embeddings to map queries and documents into a shared space, capturing semantic relationships even if no exact keywords overlap."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "Why is it common practice to include a 'chunk overlap' parameter when splitting documents for RAG?",
+        options: [
+            "To compress the index sizing of vector database files.",
+            "To preserve semantic context across the boundaries of adjacent text segments, preventing split sentences or broken ideas.",
+            "To duplicate chunks to ensure search runs find multiple copies.",
+            "To speed up vector calculations in the database index."
+        ],
+        correct: 1,
+        explanation: "Document splitting cuts text into chunks. If a key piece of information or sentence spans across a split boundary, it can get lost or lose context. Including an overlap (e.g., 50-200 characters) ensures the boundary context is preserved in both chunks."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What does the 'Lost in the Middle' phenomenon describe in LLM context utilization?",
+        options: [
+            "The model losing its connection to the database mid-execution.",
+            "An LLM's tendency to perform significantly better at retrieving and utilizing information at the very beginning or end of a long context prompt, while overlooking information in the middle.",
+            "The intermediate layers of a transformer network vanishing gradients during training.",
+            "The system prompt losing its steering capabilities over multi-turn conversations."
+        ],
+        correct: 1,
+        explanation: "Studies show that LLMs are best at retrieving information placed at the very start (primacy effect) or very end (recency effect) of long context prompts. Information placed in the middle of long contexts is often ignored or missed, degrading output quality."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "How does Corrective Retrieval-Augmented Generation (CRAG) improve on standard RAG?",
+        options: [
+            "By automatically fine-tuning the model on retrieved context chunks.",
+            "By incorporating a self-reflection evaluator that grades the relevance of retrieved documents, triggering web searches if retrieval is deemed inadequate or incorrect.",
+            "By compressing the user's prompt to reduce token count.",
+            "By forcing the vector database to perform exact keyword search instead of semantic search."
+        ],
+        correct: 1,
+        explanation: "CRAG adds a lightweight retrieval evaluator. If the evaluator determines the retrieved documents are irrelevant or insufficient for the query, it initiates corrective actions, such as triggering an external web search or querying alternative databases, ensuring the generator receives accurate context."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is the core advantage of Parameter-Efficient Fine-Tuning (PEFT) techniques?",
+        options: [
+            "They completely rewrite the model's architecture to run on CPU threads.",
+            "They adapt the model to new tasks by training a tiny fraction of parameters (e.g., <1%) while freezing the base model weights, reducing storage and compute demands.",
+            "They automate prompt engineering steps.",
+            "They increase the maximum context window size of the base model."
+        ],
+        correct: 1,
+        explanation: "Full fine-tuning updates all parameters, requiring massive GPU memory and storing a new multi-gigabyte model for each task. PEFT techniques (like LoRA) freeze the base weights and train only small adapter weights, reducing memory overhead, training time, and disk storage."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "How does Low-Rank Adaptation (LoRA) approximate weight updates (delta W) mathematically in a model layer?",
+        options: [
+            "By setting all weights to zero except for the attention head parameters.",
+            "By decomposing the update matrix into the product of two low-rank matrices: delta W = B * A, where B is d x r, A is r x k, and rank r << min(d, k).",
+            "By applying an element-wise threshold multiplier to the original weight matrix.",
+            "By scaling down weights using a dynamic floating-point quantization lookup."
+        ],
+        correct: 1,
+        explanation: "LoRA represents the weight update delta W as the product of two low-rank matrices B and A. For a model dimension d=4096, updating a weight matrix of size 4096 x 4096 requires 16 million parameters. Using rank r=8, B and A combined require only 2 x 8 x 4096 = 65,536 parameters to train."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What key innovation does QLoRA introduce to allow fine-tuning large models on limited hardware?",
+        options: [
+            "It converts model attention heads into single-threaded execution loops.",
+            "It uses a 4-bit NormalFloat (NF4) data type for the frozen base model, applies double quantization, and leverages paged optimizers to manage memory spikes.",
+            "It runs the fine-tuning process on distributed CPU memory sectors.",
+            "It prunes the model's feed-forward layers by 50% before initiating training."
+        ],
+        correct: 1,
+        explanation: "QLoRA integrates 4-bit NF4 weight quantization with LoRA. It quantizes the frozen base model to 4-bit NormalFloat (an information-theoretically optimal type), uses Double Quantization to compress quantization constants, and employs Paged Optimizers to prevent memory spikes, enabling 65B parameter model fine-tuning on a single 48GB GPU."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "How does Prefix Tuning differ from Prompt Tuning?",
+        options: [
+            "Prompt Tuning modifies input embeddings; Prefix Tuning prepends learnable Key-Value prompt vectors to all attention layers across the entire network hierarchy.",
+            "Prefix Tuning modifies text tokens; Prompt Tuning updates model weights.",
+            "Prompt Tuning uses genetic algorithms; Prefix Tuning runs gradient descent.",
+            "They are identical terms describing the injection of continuous virtual tokens at the input layer."
+        ],
+        correct: 0,
+        explanation: "Prompt tuning injects trainable virtual token embeddings only at the input layer. Prefix tuning prepends learnable prefix vectors to the keys (K) and values (V) in every self-attention layer of the Transformer, offering more parameter control and tuning capacity."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is the primary objective of Supervised Fine-Tuning (SFT) in the development of modern instruction-following LLMs?",
+        options: [
+            "To align model behavior with human preferences using reward models and reinforcement learning.",
+            "To train the model on next-token prediction using structured, human-curated instruction-response datasets, transforming it from a raw text completer into an assistant.",
+            "To pre-train the model from scratch on raw web text corpora.",
+            "To compress the model weights for edge-device deployment."
+        ],
+        correct: 1,
+        explanation: "Base LLMs are pre-trained on raw text, so they excel at text completion. SFT trains the model on structured conversation templates (Instruction -> Response), teaching it to act as an assistant that responds directly to queries."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "How is the Reward Model trained during the RLHF process?",
+        options: [
+            "By training a model to predict the next token in human preferences.",
+            "By using a binary classification loss on pairwise preferences, training the model to assign higher scalar scores to preferred responses than rejected ones.",
+            "By manually editing weights until model outputs match target templates.",
+            "By running genetic algorithms over model outputs."
+        ],
+        correct: 1,
+        explanation: "The reward model takes a prompt and response, and outputs a scalar score. It is trained on human preference datasets containing prompt x, winning response y_w, and losing response y_l. The loss function minimizes the negative log-likelihood that the reward of y_w is higher than the reward of y_l."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "How does Direct Preference Optimization (DPO) avoid the stability and complexity issues of traditional RLHF?",
+        options: [
+            "It restricts the model context window to keep gradients small.",
+            "It derives an analytical relationship showing that the reward function can be represented as the log-ratio of the policy model to a reference model, framing alignment as a simple classification problem.",
+            "It removes the policy model completely, updating only intermediate adapter weights.",
+            "It delegates optimization steps to external reinforcement learning agents."
+        ],
+        correct: 1,
+        explanation: "PPO reinforcement loops in RLHF are notoriously unstable and require tuning multiple models. DPO mathematically proves that the reward function can be defined using the likelihoods of the active policy and reference models, simplifying training to a direct optimization of the policy model on preferred/rejected pairs."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is 'Catastrophic Forgetting' during LLM fine-tuning?",
+        options: [
+            "The model running out of memory and losing its saved checkpoint files.",
+            "The model losing its general-purpose capabilities, reasoning, and pre-training knowledge while over-optimizing to perform a narrow, specific target task.",
+            "The model failing to recognize system prompt constraints after a long conversation.",
+            "The failure of attention weights to map to target tokens."
+        ],
+        correct: 1,
+        explanation: "When a model is fine-tuned heavily on a specific dataset, its parameters shift to adapt to that task. This shift can degrade its performance on general benchmarks, writing skills, or logic, a phenomenon known as catastrophic forgetting. Mixing in general-purpose datasets during tuning mitigates this."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "When is it highly recommended to perform Continued Pre-training (Domain Adaptation) rather than standard Instruction Fine-Tuning?",
+        options: [
+            "When you want to change the model's response formatting style (e.g., outputting JSON).",
+            "When the model needs to acquire deep vocabulary, concepts, and terminologies of a highly specialized domain (e.g., medical journals, legal records) not present in its original corpus.",
+            "When you need to connect the model to external web search APIs.",
+            "When you want to reduce inference latency."
+        ],
+        correct: 1,
+        explanation: "Instruction tuning changes the interaction behavior (how the model formats/converses). Domain adaptation (continued pre-training on raw text) is used to feed the model large volumes of domain-specific text, updating its internal representations to grasp specialized concepts before instruction tuning."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "How does Speculative Decoding speed up LLM generation without compromising accuracy?",
+        options: [
+            "By pruning the target model parameters based on word probabilities.",
+            "By using a small, fast draft model to generate a sequence of token proposals, and then verifying those tokens in parallel using a single forward pass of the larger, slower target model.",
+            "By running inference on multiple GPUs in parallel and selecting the fastest output.",
+            "By pre-compiling common sentence structures into a lookup cache."
+        ],
+        correct: 1,
+        explanation: "Auto-regressive generation is memory-bandwidth bound. Speculative decoding runs a small draft model to generate K tokens quickly. The large target model processes all K tokens in a single parallel forward pass, verifying them. If some tokens are accepted, generation is accelerated without changing the final output distribution."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "Which components define the core architecture of an autonomous LLM-based agent?",
+        options: [
+            "Web browser engines, database drivers, and frontend UI templates.",
+            "An LLM core (brain), planning mechanisms (task decomposition), memory systems (short/long-term), and tool integrations (APIs, code execution).",
+            "Compiler tools, parameter pruners, and quantization modules.",
+            "Prompt compilers, vector similarity calculators, and system configurations."
+        ],
+        correct: 1,
+        explanation: "Autonomous agents use an LLM as a central controller. To solve complex tasks, the agent relies on planning (breaking goals down, self-reflection), memory (storing history and retrieval), and tools (interacting with the environment, running code, calling web search)."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is the core flow of an agentic execution loop?",
+        options: [
+            "Compiling code, uploading files, and rendering views.",
+            "Perceiving environmental state/inputs, reasoning and planning sub-tasks, executing tool actions, and reflecting on outcomes to adjust plans.",
+            "Quantizing weights, tuning prompts, and caching tokens.",
+            "Querying databases, filtering duplicates, and saving CSV records."
+        ],
+        correct: 1,
+        explanation: "The agentic loop mirrors cognitive processes: the agent senses input (Perception), reasons about the goal and splits it into steps (Planning), executes steps via tools (Action), and evaluates the outcome (Reflection) before proceeding."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "How does short-term memory differ from long-term memory in agentic systems?",
+        options: [
+            "Short-term memory stores floats; long-term memory processes text.",
+            "Short-term memory is managed via the immediate in-context prompt window (conversation history); long-term memory is persisted in external vector datastores to retrieve past context across sessions.",
+            "Short-term memory is read-only; long-term memory allows write access.",
+            "Short-term memory resides on stack frames; long-term memory resides on CPU registers."
+        ],
+        correct: 1,
+        explanation: "Short-term memory tracks current task state and conversation turns within the active context window. Long-term memory stores permanent details, past user preferences, and agent experiences in an external database, retrieving them as needed via semantic search."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "In function calling, how does the LLM interact with external tools?",
+        options: [
+            "The LLM directly compiles and runs the external API source code.",
+            "The LLM parses user queries and outputs a structured JSON payload containing function names and arguments matching a predefined schema, which the runtime application executes.",
+            "The LLM writes a Python script that overrides web server ports.",
+            "The LLM uses search engines to locate the API code."
+        ],
+        correct: 1,
+        explanation: "LLMs do not execute code or call APIs directly. Instead, they are provided with a tool definition schema. If the model determines a tool is needed, it generates a structured text payload (like JSON) specifying the function name and arguments. The application code receives this, runs the function, and returns the result to the LLM."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What does the Reflexion agent architecture introduce to improve problem-solving?",
+        options: [
+            "It automatically deletes incorrect database entries.",
+            "It uses an evaluator that assesses task failures, generates verbal self-reflections about what went wrong, and stores them in memory to guide future attempts.",
+            "It fine-tunes model weights based on output scores.",
+            "It routes tasks to larger model classes when errors are found."
+        ],
+        correct: 1,
+        explanation: "Reflexion is a self-correction paradigm. When an agent fails a task, it analyzes its scratchpad history, writes a verbal self-reflection identifying its mistakes, and adds this reflection to its context for the next try, leading to rapid self-correction."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is a primary challenge in building web navigation agents?",
+        options: [
+            "Web browsers rejecting LLM connections.",
+            "Processing large, noisy HTML DOM trees within context windows, and mapping screen coordinates or visual layouts to discrete click/type actions.",
+            "Converting HTML tags into binary-safe character arrays.",
+            "Restricting page loads to single-process frameworks."
+        ],
+        correct: 1,
+        explanation: "Raw web pages contain massive, redundant HTML DOM structures that exhaust context windows. Web agents must clean the DOM (converting to markdown/simplified trees), map visual elements to interactive identifiers, and translate abstract plans into raw mouse coordinates or DOM events."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "In frameworks like BabyAGI or AutoGPT, what does dynamic task decomposition refer to?",
+        options: [
+            "Pruning attention weights during long runs.",
+            "The agent's ability to recursively analyze a high-level goal, generate a queue of sub-tasks, execute them, and dynamically create, prioritize, or delete tasks based on intermediate results.",
+            "Splitting files into smaller chunks for database storage.",
+            "Routing query tasks to different microservices."
+        ],
+        correct: 1,
+        explanation: "Dynamic task decomposition means the agent doesn't follow a fixed script. It starts with a main goal, creates a task list, executes the first task, examines the result, and dynamically updates the task list based on findings."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "Why is persistent State Management critical in asynchronous agent architectures?",
+        options: [
+            "To prevent the compiler from losing variable definitions.",
+            "To maintain and restore context, chat history, tool results, and execution state when agent runs span multiple turns, API calls, or require human intervention.",
+            "To compress model weights during background execution.",
+            "To route user queries to different models."
+        ],
+        correct: 1,
+        explanation: "Agent runs are rarely instantaneous. They can pause to wait for tool results, run long-running scripts, or await human approvals. Persistent state management allows runs to resume safely without losing execution progress."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is the function of a Semantic Router in agentic frameworks?",
+        options: [
+            "To encrypt internet traffic between brokers and nodes.",
+            "To classify incoming user requests by running fast, low-cost vector embedding similarity checks against predefined routes, bypassing expensive LLM routing steps.",
+            "To route database search requests to alternative index sectors.",
+            "To split text files into separate lines."
+        ],
+        correct: 1,
+        explanation: "Rather than using a slow and expensive LLM call to decide which agent tool or sub-graph to route a user query to, a semantic router uses fast vector embedding calculations. It compares the query embedding to reference vectors representing different routes to make routing decisions."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "Why is Human-in-the-Loop (HITL) integration essential in production agent deployments?",
+        options: [
+            "To compile the agent code manually at runtime.",
+            "To provide a safety checkpoint, allowing humans to audit agent intents, verify high-risk actions (e.g., financial transfers, email blasts), or resolve ambiguous edge cases.",
+            "To adjust model hyper-parameters during active sessions.",
+            "To verify database schema compliance."
+        ],
+        correct: 1,
+        explanation: "Fully autonomous agents can hallucinate or make bad decisions. HITL adds guardrails, pausing the agent to request explicit user approval before executing destructive, expensive, or high-risk tasks."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is the core design pattern of Multi-Agent systems (e.g. CrewAI, AutoGen)?",
+        options: [
+            "Combining multiple LLMs into a single massive neural network.",
+            "Decomposing complex workflows into specialized, role-playing agents (e.g., writer, researcher) that communicate, coordinate, and share task states through structured protocols.",
+            "Running identical agent loops on separate computers.",
+            "Compiling agent parameters into localized configuration files."
+        ],
+        correct: 1,
+        explanation: "Instead of asking one general-purpose agent to handle a complex multi-stage pipeline, multi-agent systems break it down. Specialized agents are given distinct system prompts, memories, and tools, collaborating as a team to solve tasks through structured conversations."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is a typical communication pattern in a multi-agent dialog framework?",
+        options: [
+            "Agents executing calculations in memory without sharing text.",
+            "A coordinator agent orchestrating execution by passing task outputs dynamically to specialized worker agents, or open-ended dialogue where agents discuss steps.",
+            "Converting all messages into binary-safe hexadecimal lines.",
+            "Restricting communication to database query commands."
+        ],
+        correct: 1,
+        explanation: "Multi-agent dialogue can use directed patterns (e.g., sequential pipelines where Agent A's output is Agent B's input) or conversational patterns (e.g., group chats where an orchestrator agent or manager selects the next speaker based on context)."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "In multi-agent architectures, why does task decomposition improve performance over a single-agent architecture?",
+        options: [
+            "It decreases the total parameter size of the neural network.",
+            "It reduces context distraction, isolates tool configurations, and lets specialized agents focus on narrow sub-tasks, avoiding single-prompt cognitive overload.",
+            "It forces the system to run on single thread segments.",
+            "It compresses output files written to vector databases."
+        ],
+        correct: 1,
+        explanation: "A single LLM with 50 tools can get confused or write bad arguments. Dividing the task among agents reduces context pollution, keeps prompt lengths manageable, and maximizes focus."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What does an 'Agent Loop' or 'Deadlock' represent in multi-agent systems?",
+        options: [
+            "Two database transactions blocking each other's row locks.",
+            "A stalemate where two or more agents repeatedly swap the same correction loops or arguments (e.g., endless feedback loops of critique and rewrite) without progressing.",
+            "The crash of background execution threads on master nodes.",
+            "A security system rejecting agent requests due to session timeouts."
+        ],
+        correct: 1,
+        explanation: "In agent groups, a critique agent might reject a writer agent's work with the same critique, and the writer might respond with similar changes. This creates an infinite, expensive loop. Frameworks mitigate this by setting maximum loop thresholds."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What is the difference between Direct Prompt Injection and Indirect Prompt Injection?",
+        options: [
+            "Direct injection targets vector databases; indirect injection targets model weights.",
+            "Direct injection occurs when a user explicitly submits malicious prompts; indirect injection occurs when the LLM retrieves untrusted external content (e.g., web search results, PDFs) containing hidden malicious instructions.",
+            "Direct injection requires system prompt access; indirect injection runs on client devices.",
+            "There is no distinction; they are interchangeable terms."
+        ],
+        correct: 1,
+        explanation: "Direct injection (jailbreaking) is when the user inputs text trying to bypass safety rules. Indirect injection is when a user places malicious text on an external page/document. When the agent reads it using a tool, the LLM processes those instructions, overriding its system rules."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "How do input/output guardrail frameworks (like Llama Guard or Guardrails AI) secure LLM applications?",
+        options: [
+            "By encrypting network communication protocols.",
+            "By intercepting queries and generated text, running validation checks (using lightweight classifier models or rule-based patterns) to filter toxic, sensitive, or jailbreak content.",
+            "By compiling prompt templates into structured SQL formats.",
+            "By restricting model parameters to low-rank formats."
+        ],
+        correct: 1,
+        explanation: "Guardrails act as firewalls. Input guardrails check user prompts for injection, jailbreaks, or illegal requests. Output guardrails verify the model's generated text, checking for toxic content, PII leaks, or validating that output schemas are structurally correct."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "Why is the 'LLM-as-a-Judge' evaluation pattern widely adopted for LLM benchmarks?",
+        options: [
+            "It completely eliminates the need for reference answer keys.",
+            "It uses powerful models programmed with explicit grading rubrics to evaluate complex, open-ended, or subjective responses, which standard metrics like BLEU or ROUGE cannot evaluate accurately.",
+            "It runs validation checks on local hardware compiler components.",
+            "It automatically adjusts model parameters based on evaluation scores."
+        ],
+        correct: 1,
+        explanation: "BLEU/ROUGE only measure exact n-gram overlap, failing when an LLM writes a correct answer using different phrasing. LLM-as-a-Judge uses an advanced model to read the query, reference answer, and model output, applying a detailed rubric to evaluate relevance, accuracy, and tone."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "What are the three components evaluated in the 'RAG Triad' framework?",
+        options: [
+            "Embedding accuracy, database latency, and storage volume size.",
+            "Context Relevance (retrieval quality), Groundedness/Faithfulness (hallucination check), and Answer Relevance (usefulness).",
+            "Vector dimensions, distance metrics, and chunk size.",
+            "Prompt length, model temperature, and token speed."
+        ],
+        correct: 1,
+        explanation: "The RAG Triad isolates the points of failure: Context Relevance (did we retrieve useful chunks for the query?), Groundedness (is the generated answer supported only by the retrieved context?), and Answer Relevance (does the generated answer actually address the user's question?)."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "How does the Self-Consistency decoding strategy reduce hallucinations and errors in complex reasoning tasks?",
+        options: [
+            "By forcing the model to run on single thread segments.",
+            "By generating multiple independent reasoning paths (using sampling decoding) and selecting the final answer that appears most frequently (majority vote) across all paths.",
+            "By comparing outputs to external dictionary definitions.",
+            "By updating model weights after each correct answer."
+        ],
+        correct: 1,
+        explanation: "Self-consistency generates multiple candidate chains of thought by sampling. If the model's reasoning is solid, different reasoning paths will converge on the same correct final answer. Selecting the most frequent final answer filters out outlier paths containing reasoning errors."
+    },
+    {
+        topic: "Generative AI & Agentic AI",
+        question: "Why is it crucial to execute agent-generated code (e.g., Python code generated to solve a math problem) in sandboxed execution environments?",
+        options: [
+            "To accelerate code compilation speeds.",
+            "To prevent security vulnerabilities, protecting the host system from malicious or accidental code execution (e.g., deleting system files, running infinite resource loops, unauthorized outbound connections).",
+            "To ensure variables use consistent data structures.",
+            "To route code outputs to relational databases."
+        ],
+        correct: 1,
+        explanation: "If an agent generates and runs code on the host machine, a bug or injection attack could execute malicious actions or access sensitive environment variables. Sandboxing isolates code execution, protecting host resources."
     }
 ];
 
